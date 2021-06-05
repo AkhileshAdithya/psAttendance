@@ -9,19 +9,19 @@ driver = webdriver.Firefox()
 driver.delete_all_cookies()
 driver.get('https://lms-practice-school.bits-pilani.ac.in/login/index.php')
 
-EMAIL = 'mail here'
-PASSWORD = 'password here'
+EMAIL = ''
+PASSWORD = ''
 
+driver.implicitly_wait(30)
 google = driver.find_element_by_xpath("//a[@title='Google']").click()
-driver.implicitly_wait(10)
-driver.find_element_by_name('identifier').send_keys(EMAIL)
-driver.find_element_by_name('identifier').send_keys(Keys.RETURN)
 
-driver.implicitly_wait(10)
+mail = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.NAME, "identifier")))
+mail.send_keys(EMAIL)
+mail.send_keys(Keys.RETURN)
+
 password = WebDriverWait(driver,10).until(EC.element_to_be_clickable((By.NAME, "password")))
 password.send_keys(PASSWORD)
 password.send_keys(Keys.RETURN)
-driver.implicitly_wait(10)
 
 psStation = WebDriverWait(driver, 10).until(
     EC.visibility_of_element_located((By.CLASS_NAME, "coursename"))
@@ -31,3 +31,5 @@ psStation.click()
 button = driver.find_element_by_xpath("//span[@class='instancename' and contains(text(),'Attendance')]")
 button.click()
 
+submit = driver.find_element_by_xpath("//a[contains(text(),'Submit attendance')]").click()
+submit.click()
